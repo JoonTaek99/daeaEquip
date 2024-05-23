@@ -35,40 +35,40 @@
 </head>
 <body>
     <div class="container">
-        <h2 class="form-title">전산장비 저장</h2>
+        <h2 class="form-title">전산장비 정보</h2>
         <form action="insertData.board" method="post">
             <table>
                 <tr>
                     <th>부서명</th>
-                    <td><input type="text" name="DepartmentName" /></td>
+                    <td>${dto.departmentName}</td>
                     <th>운영자</th>
-                    <td><input type="text" name="Operator" /></td>
+                    <td>${dto.operator}</td>
                     <th>연락처</th>
-                    <td><input type="text" name="ContactInfo" /></td>
+                    <td>${dto.contactInfo}</td>
                 </tr>
                 <tr>
                     <th>용도</th>
-                    <td><input type="text" name="purpose" /></td>
+                    <td>${dto.purpose}</td>
                     <th>모델명</th>
-                    <td><input type="text" name="ModelName" /></td>
+                    <td>${dto.modelName}</td>
                     <th>장비명</th>
-                    <td><input type="text" name="EquipmentName" /></td>
+                    <td>${dto.equipmentName}</td>
                 </tr>
                 <tr>
                     <th>도입일자</th>
-                    <td><input type="date" name="IntroductionDate" /></td>
+                    <td>${dto.introductionDate}</td>
                     <th>자산번호</th>
-                    <td><input type="text" name="AssetNumber" /></td>
+                    <td>${dto.assetNumber}</td>
                     <th>IP</th>
-                    <td><input type="text" name="IP" /></td>
+                    <td>${dto.IP}</td>
                 </tr>
                 <tr>
                     <th>제조업체</th>
-                    <td><input type="text" name="Manufacturer" /></td>
+                    <td>${dto.manufacturer}</td>
                     <th>유지보수업체</th>
-                    <td><input type="text" name="MaintenanceCompany" /></td>
+                    <td>${dto.maintenanceCompany}</td>
                     <th>업체연락처</th>
-                    <td><input type="text" name="MaintenanceContact" /></td>
+                    <td>${dto.maintenanceContact}</td>
                 </tr>
             </table>
 
@@ -218,9 +218,6 @@
                     <td><input type="text" name="etc_n" /></td>
                 </tr>
             </table>
-            <div class="form-group">
-                <input type="submit" value="Submit" />
-            </div>
         </form>
     </div>
 </body>

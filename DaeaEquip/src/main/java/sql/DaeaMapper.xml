@@ -3,19 +3,55 @@
 
 <mapper namespace="com.daea">
 	<insert id="insertData" parameterType="EquiDto">
-        INSERT INTO TEST (id, model, manufacturer, operator, department, IP, acqdate)
-        VALUES (#{id}, #{model}, #{manufacturer}, #{operator}, #{department}, #{IP}, #{acqdate})
-    </insert>
+	    INSERT INTO EQUIPMENT (DepartmentName, Operator, ContactInfo, Purpose, ModelName, EquipmentName, IntroductionDate, AssetNumber, IP, Manufacturer, MaintenanceCompany, MaintenanceContact, OS, DBMS, CPUVersion, MemoryVersion, DiskVersion, NWCard, PowerVersion, SN, Antivirus, MainProgram, SSD, DVDROM, HDD, NIC, Controller, HBA, Drive, Cartridge, StreamingSolution, GraphicCard, Cluster, BackupRepository, etc,
+	    OS_q, DBMS_q, CPUVersion_q, MemoryVersion_q, DiskVersion_q, NWCard_q, PowerVersion_q, SN_q, Antivirus_q, MainProgram_q, SSD_q, DVDROM_q, HDD_q, NIC_q, Controller_q, HBA_q, Drive_q, Cartridge_q, StreamingSolution_q, GraphicCard_q, Cluster_q, BackupRepository_q, etc_q,
+	    OS_n, DBMS_n, CPUVersion_n, MemoryVersion_n, DiskVersion_n, NWCard_n, PowerVersion_n, SN_n, Antivirus_n, MainProgram_n, SSD_n, DVDROM_n, HDD_n, NIC_n, Controller_n, HBA_n, Drive_n, Cartridge_n, StreamingSolution_n, GraphicCard_n, Cluster_n, BackupRepository_n, etc_n)
+	    VALUES (
+	    #{DepartmentName}, #{Operator}, #{ContactInfo}, #{Purpose}, #{ModelName}, #{EquipmentName}, #{IntroductionDate}, #{AssetNumber}, #{IP}, #{Manufacturer}, #{MaintenanceCompany}, #{MaintenanceContact}, #{OS}, #{DBMS}, #{CPUVersion}, #{MemoryVersion}, #{DiskVersion}, #{NWCard}, #{PowerVersion}, #{SN}, #{Antivirus}, #{MainProgram}, #{SSD}, #{DVDROM}, #{HDD}, #{NIC}, #{Controller}, #{HBA}, #{Drive}, #{Cartridge}, #{StreamingSolution}, #{GraphicCard}, #{Cluster}, #{BackupRepository}, #{etc},
+	    #{OS_q}, #{DBMS_q}, #{CPUVersion_q}, #{MemoryVersion_q}, #{DiskVersion_q}, #{NWCard_q}, #{PowerVersion_q}, #{SN_q}, #{Antivirus_q}, #{MainProgram_q}, #{SSD_q}, #{DVDROM_q}, #{HDD_q}, #{NIC_q}, #{Controller_q}, #{HBA_q}, #{Drive_q}, #{Cartridge_q}, #{StreamingSolution_q}, #{GraphicCard_q}, #{Cluster_q}, #{BackupRepository_q}, #{etc_q},
+	    #{OS_n}, #{DBMS_n}, #{CPUVersion_n}, #{MemoryVersion_n}, #{DiskVersion_n}, #{NWCard_n}, #{PowerVersion_n}, #{SN_n}, #{Antivirus_n}, #{MainProgram_n}, #{SSD_n}, #{DVDROM_n}, #{HDD_n}, #{NIC_n}, #{Controller_n}, #{HBA_n}, #{Drive_n}, #{Cartridge_n}, #{StreamingSolution_n}, #{GraphicCard_n}, #{Cluster_n}, #{BackupRepository_n}, #{etc_n})
+	</insert>
+
+
     
-    <select id="getAllData" resultType="EquiDto">
-        SELECT * 
-        FROM TEST
-    </select>
+    <select id="getAllData" parameterType="Map" resultType="EquiDto">
+    SELECT rn, SEQ, DepartmentName, Operator, ContactInfo, Purpose, ModelName, EquipmentName, IntroductionDate, AssetNumber, IP, Manufacturer, MaintenanceCompany, MaintenanceContact, OS, DBMS, CPUVersion, MemoryVersion, DiskVersion, NWCard, PowerVersion, SN, Antivirus, MainProgram, SSD, DVDROM, HDD, NIC, Controller, HBA, Drive, Cartridge, StreamingSolution, GraphicCard, Cluster, BackupRepository, etc,
+    OS_q, DBMS_q, CPUVersion_q, MemoryVersion_q, DiskVersion_q, NWCard_q, PowerVersion_q, SN_q, Antivirus_q, MainProgram_q, SSD_q, DVDROM_q, HDD_q, NIC_q, Controller_q, HBA_q, Drive_q, Cartridge_q, StreamingSolution_q, GraphicCard_q, Cluster_q, BackupRepository_q, etc_q,
+    OS_n, DBMS_n, CPUVersion_n, MemoryVersion_n, DiskVersion_n, NWCard_n, PowerVersion_n, SN_n, Antivirus_n, MainProgram_n, SSD_n, DVDROM_n, HDD_n, NIC_n, Controller_n, HBA_n, Drive_n, Cartridge_n, StreamingSolution_n, GraphicCard_n, Cluster_n, BackupRepository_n, etc_n
+    FROM (SELECT ROW_NUMBER() OVER(ORDER BY SEQ DESC) rn, SEQ, DepartmentName, Operator, ContactInfo, Purpose, ModelName, EquipmentName, IntroductionDate, AssetNumber, IP, Manufacturer, MaintenanceCompany, MaintenanceContact, OS, DBMS, CPUVersion, MemoryVersion, DiskVersion, NWCard, PowerVersion, SN, Antivirus, MainProgram, SSD, DVDROM, HDD, NIC, Controller, HBA, Drive, Cartridge, StreamingSolution, GraphicCard, Cluster, BackupRepository, etc,
+    OS_q, DBMS_q, CPUVersion_q, MemoryVersion_q, DiskVersion_q, NWCard_q, PowerVersion_q, SN_q, Antivirus_q, MainProgram_q, SSD_q, DVDROM_q, HDD_q, NIC_q, Controller_q, HBA_q, Drive_q, Cartridge_q, StreamingSolution_q, GraphicCard_q, Cluster_q, BackupRepository_q, etc_q,
+    OS_n, DBMS_n, CPUVersion_n, MemoryVersion_n, DiskVersion_n, NWCard_n, PowerVersion_n, SN_n, Antivirus_n, MainProgram_n, SSD_n, DVDROM_n, HDD_n, NIC_n, Controller_n, HBA_n, Drive_n, Cartridge_n, StreamingSolution_n, GraphicCard_n, Cluster_n, BackupRepository_n, etc_n
+    FROM EQUIPMENT) a
+    <where>
+        <choose>
+            <when test="seq!=null">
+                AND SEQ=#{seq}
+            </when>
+            <otherwise>
+                AND CEIL(rn/10)=#{pnum}
+            </otherwise>
+        </choose>
+    </where> 
+    ORDER BY SEQ
+</select>
+
     
     <select id="searchData" parameterType="String" resultType="EquiDto">
         SELECT *
-        FROM TEST
-        WHERE ID LIKE CONCAT('%' ,#{keyword}, '%')
+		FROM EQUIPMENT
+		WHERE EquipmentName LIKE CONCAT('%', #{keyword}, '%')
+  		 OR purpose LIKE CONCAT('%', #{keyword}, '%')
     </select>
+    
+    <select id="detailData" parameterType="String" resultType="EquiDto">
+        SELECT * 
+        FROM EQUIPMENT
+        WHERE AssetNumber = #{assetNumber}
+    </select>
+    
+    <select id="getPCount" resultType="int">
+		SELECT CEIL(COUNT(*)/10) pageCount 
+		FROM EQUIPMENT
+	</select>
 	
 </mapper>
